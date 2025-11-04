@@ -29,9 +29,9 @@ const signup = async (req, res) => {
     const user = new User({ username, email, password });
     await user.save();
 
-    // Generate JWT token
+    // Generate JWT token (include role flags so middleware can enforce permissions)
     const token = jwt.sign(
-      { userId: user._id, username: user.username },
+      { userId: user._id, username: user.username, admin: user.admin || false, superAdmin: user.superAdmin || false },
       process.env.JWT_SECRET || 'your-secret-key',
       { expiresIn: '7d' }
     );
@@ -43,7 +43,9 @@ const signup = async (req, res) => {
       user: {
         id: user._id,
         username: user.username,
-        email: user.email
+        email: user.email,
+        admin: user.admin || false,
+        superAdmin: user.superAdmin || false
       }
     });
   } catch (error) {
@@ -87,9 +89,9 @@ const login = async (req, res) => {
       });
     }
 
-    // Generate JWT token
+    // Generate JWT token (include role flags so middleware can enforce permissions)
     const token = jwt.sign(
-      { userId: user._id, username: user.username },
+      { userId: user._id, username: user.username, admin: user.admin || false, superAdmin: user.superAdmin || false },
       process.env.JWT_SECRET || 'your-secret-key',
       { expiresIn: '7d' }
     );
@@ -101,7 +103,9 @@ const login = async (req, res) => {
       user: {
         id: user._id,
         username: user.username,
-        email: user.email
+        email: user.email,
+        admin: user.admin || false,
+        superAdmin: user.superAdmin || false
       }
     });
   } catch (error) {
