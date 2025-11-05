@@ -18,21 +18,21 @@ const authenticateToken = (req, res, next) => {
         message: 'Invalid or expired token'
       });
     }
-    // Attach decoded payload to req.user. Payload includes role flags when issued from authController.
+    // Attach decoded payload to req.user. Payload includes role when issued from authController.
     req.user = payload;
     next();
   });
 };
 
-// Middleware to allow only admin or superAdmin users
+// Middleware to allow only admin or super admin users
 const requireAdmin = (req, res, next) => {
   // Ensure token was verified and req.user exists
   if (!req.user) {
     return res.status(401).json({ success: false, message: 'Access token required' });
   }
 
-  const { admin = false, superAdmin = false } = req.user;
-  if (admin || superAdmin) return next();
+  const { role } = req.user;
+  if (role === 'admin' || role === 'super admin') return next();
 
   return res.status(403).json({ success: false, message: 'Admin privileges required' });
 };

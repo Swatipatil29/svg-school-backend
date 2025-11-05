@@ -23,14 +23,11 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Password is required'],
     minlength: [6, 'Password must be at least 6 characters long']
   },
-  // Role flags for access control
-  admin: {
-    type: Boolean,
-    default: false
-  },
-  superAdmin: {
-    type: Boolean,
-    default: false
+  // Role field for access control
+  role: {
+    type: String,
+    enum: ['student', 'class teacher', 'staff', 'admin', 'super admin'],
+    default: 'student'
   },
   createdAt: {
     type: Date,
