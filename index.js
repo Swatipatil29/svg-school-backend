@@ -1,5 +1,5 @@
 const express = require('express');
-const cors = require('cors');
+// const cors = require('cors');
 const cron = require('node-cron');
 const connectDB = require('./src/config/database');
 const app = express();
@@ -10,10 +10,10 @@ require('dotenv').config()
 connectDB();
 
 // Middleware
-app.use(cors({
-  origin: ['http://localhost:8081', 'http://localhost:3000', 'http://localhost:19006'],
-  credentials: true
-}));
+// app.use(cors({
+//   origin: ['http://localhost:8081', 'http://localhost:3000', 'http://localhost:19006'],
+//   credentials: true
+// }));
 app.use(express.json());
 
 // Routes
